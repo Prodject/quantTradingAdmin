@@ -1,0 +1,569 @@
+@()
+
+@main("Welcome to Play") {
+  
+
+<div class="wrapper">
+
+  <!-- Main Header -->
+  <header class="main-header">
+
+    <!-- Logo -->
+    <a href="index2.html" class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>view</b>fin</span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>view</b>fin</span>
+    </a>
+
+    <!-- Header Navbar -->
+    <nav class="navbar navbar-static-top" role="navigation">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      <!-- Navbar Right Menu -->
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">          
+          <li class="dropdown user user-menu">
+            <!-- Menu Toggle Button -->
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <!-- The user image in the navbar-->
+              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <!-- hidden-xs hides the username on small devices so only the image appears. -->
+              <span class="hidden-xs">Eric Gu</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- The user image in the menu -->
+              <li class="user-header">
+                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+
+                <p>
+                  Eric Gu - Administrator
+                  <small>Last Login:2018-03-26</small>
+                </p>
+              </li>
+              <!-- Menu Body -->
+              <li class="user-body">
+                <div class="row">
+                  <div class="col-xs-4 text-center">
+                    <a href="#">Followers</a>
+                  </div>
+                  <div class="col-xs-4 text-center">
+                    <a href="#">Sales</a>
+                  </div>
+                  <div class="col-xs-4 text-center">
+                    <a href="#">Friends</a>
+                  </div>
+                </div>
+                <!-- /.row -->
+              </li>
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-left">
+                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                </div>
+                <div class="pull-right">
+                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                </div>
+              </li>
+            </ul>
+          </li>                      
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>Eric Gu</p>
+          <!-- Status -->
+          <a href="#"><i class="fa fa-circle text-success"></i> Administrator</a>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <ul class="sidebar-menu" data-widget="tree">
+        <!-- Optionally, you can add icons to the links -->
+                 
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>权限管理</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#">权限管理</a></li>
+            <li><a href="#">权限管理</a></li>
+          </ul>
+        </li>
+        
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>监控页面</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#">监控机器人</a></li>
+            <li><a href="#">监控策略持仓风险</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>行情分析页面</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#">整体市场分析</a></li>
+            <li><a href="#">分交易所分析</a></li>
+          </ul>
+        </li>
+
+        <li class="active treeview menu-open">
+          <a href="#"><i class="fa fa-link"></i> <span>持仓分析页面</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="overallAccountAnalysis.html">整体账户分析</a></li>
+            <li><a href="#">分账户分析</a></li>
+            <li><a href="#">分交易所分析</a></li>
+            <li><a href="#">分策略分析(暂不做)</a></li>
+            <li><a href="#">分货币对分析</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>交易分析页面</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#">整体交易情况分析</a></li>
+            <li><a href="#">分账户分析</a></li>
+            <li><a href="#">分交易所分析</a></li>
+            <li><a href="#">分策略分析</a></li>
+            <li><a href="#">分货币对分析</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>参数设置页面</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#">参数设置页面</a></li>
+          </ul>
+        </li>              
+
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>预测页面</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#">预测页面</a></li>
+          </ul>
+        </li>
+
+      </ul>      
+      <!-- /.sidebar-menu -->
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        持仓分析页面---整体账户分析
+        <!--<small>分析所有账户总体持仓的情况，分静态数据和动态数据。静态数据包括：给定目前时刻在不同交易所的资产分布图，在不同账户中的资产分布图，在不同货币中的持仓比例图等；动态数据包括：总体持仓换算成某一给定货币单位（法币或者虚拟货币）的历史表现，分不同交易所、不同账户、不同货币持仓的历史表现。</small>-->
+        <select style="width: 120px;" class="form-control">
+          <option>加密币种</option>
+          <option>机器人</option>
+          <option>交易所</option>
+        </select>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 持仓分析页面</a></li>
+        <li class="active">整体账户分析</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">整体账户分析最近一个月</h3>
+          <div class="box-tools pull-right">
+            &nbsp;
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="chart">
+            <canvas id="lineChartLastMonth" style="height:350px"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">增长率线</h3>
+          <div class="box-tools pull-right">
+            &nbsp;
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="chart">
+            <canvas id="lineChartLastMonthIncreaseRate" style="height:350px"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">整体账户分布图</h3>
+          <div class="box-tools pull-right">
+          &nbsp;
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="chart">
+            <canvas id="pieChart" style="height:230px"></canvas>
+          </div>
+        </div>
+      </div>
+
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <!-- To the right -->
+    <div class="pull-right hidden-xs">
+      www.viewfin.com
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright &copy; 2016 <a href="http://www.viewfin.com">www.viewfin.com</a>.</strong> All rights reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+  immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED JS SCRIPTS -->
+
+<!-- jQuery 3 -->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+<script src="/dist/js/Chart.bundle.js"></script>
+<script language="javascript">
+
+//---------------------------------------------------------------------
+    var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var config = {
+        type: 'bar',
+        data: {
+            labels: [1,2,3,4,5,6,7],
+            datasets: [{
+                label: 'BTC',
+                backgroundColor: 'red',
+                borderColor: 'red',
+                data: [
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor()
+                ],
+                fill: false,
+            }, {
+                label: 'ETH',
+                fill: false,
+                backgroundColor: 'blue',
+                borderColor: 'blue',
+                data: [
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor()
+                ],
+            }, {
+                label: 'XRP',
+                fill: false,
+                backgroundColor: 'red',
+                borderColor: 'red',
+                data: [
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor()
+                ],
+            }, {
+                label: 'LTC',
+                fill: false,
+                backgroundColor: 'gray',
+                borderColor: 'gray',
+                data: [
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor()
+                ],
+            }, {
+                label: 'ETP',
+                fill: false,
+                backgroundColor: 'black',
+                borderColor: 'black',
+                data: [
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor()
+                ],
+            }]
+        },
+        options: {
+            responsive: true,
+            title: {
+                display: false,
+                text: ''
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            scales: {
+                xAxes: [{
+                    stacked: true,
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: '天'
+                    }
+                }],
+                yAxes: [{
+                    stacked: true,
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Value'
+                    }
+                }]
+            }
+        }
+    };
+
+
+    var ctx1 = document.getElementById('lineChartLastMonth').getContext('2d');
+    window.myLine = new Chart(ctx1, config);
+
+    function randomScalingFactor() {
+      return Math.floor(Math.random() * 200);
+
+    }
+
+
+var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+var config = {
+    type: 'line',
+    data: {
+        labels: [1,2,3,4,5,6,7],
+        datasets: [{
+            label: 'BTC',
+            backgroundColor: 'red',
+            borderColor: 'red',
+            data: [
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor()
+            ],
+            fill: false,
+        }, {
+            label: 'ETH',
+            fill: false,
+            backgroundColor: 'blue',
+            borderColor: 'blue',
+            data: [
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor()
+            ],
+        }, {
+            label: 'XRP',
+            fill: false,
+            backgroundColor: 'red',
+            borderColor: 'red',
+            data: [
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor()
+            ],
+        }, {
+            label: 'LTC',
+            fill: false,
+            backgroundColor: 'gray',
+            borderColor: 'gray',
+            data: [
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor()
+            ],
+        }, {
+            label: 'ETP',
+            fill: false,
+            backgroundColor: 'black',
+            borderColor: 'black',
+            data: [
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor()
+            ],
+        }]
+    },
+    options: {
+        responsive: true,
+        title: {
+            display: false,
+            text: ''
+        },
+        tooltips: {
+            mode: 'index',
+            intersect: false,
+        },
+        hover: {
+            mode: 'nearest',
+            intersect: true
+        },
+        scales: {
+            xAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: '天'
+                }
+            }],
+            yAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Value'
+                }
+            }]
+        }
+    }
+};
+
+
+var ctx2 = document.getElementById('lineChartLastMonthIncreaseRate').getContext('2d');
+window.myLine = new Chart(ctx2, config);
+
+
+
+//------------------------------------------
+var config = {
+    type: 'pie',
+    data: {
+        datasets: [{
+            data: [
+                8,
+                90,
+                110,
+                221,
+                311,
+            ],
+            backgroundColor: [
+                'red',
+                'orange',
+                'yellow',
+                'green',
+                'blue',
+            ],
+            label: 'Dataset 1'
+        }],
+        labels: [
+            'BTC',
+            'ETH',
+            'XRP',
+            'LTC',
+            'ETP'
+        ]
+    },
+    options: {
+        responsive: true
+    }
+};
+
+var ctx = document.getElementById('pieChart').getContext('2d');
+window.myPie = new Chart(ctx, config);
+</script>
+
+
+}

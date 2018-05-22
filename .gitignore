@@ -1,0 +1,6 @@
+/vendor
+ 
+/logs/application.log
+
+project/target
+target

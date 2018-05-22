@@ -1,0 +1,93 @@
+@(category: String, redisKeys: Set[String], redisValues: Map[String,String],currentKey: String, userName: String,robots: Map[String,String])
+
+@main("参数设置页面")   {      
+    <section class="content-header">
+      <h1>
+        @category
+        <div class="row">
+            <div class="col-sm-1">        
+                &nbsp;
+            </div>
+            <div class="col-sm-4">
+                &nbsp;
+            </div> 
+          </div>        
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 参数设置页面</a></li>
+        <li class="active">设置</li>
+      </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content container-fluid">
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box">
+            <!-- /.box-header -->
+            <div class="box-body">
+
+              <table class="table table-bordered">
+                <tbody><tr>                   
+                  <th>键</th>
+                  <th>值</th>
+                   
+                </tr>
+                 				
+					     <tr>	                   
+	                  <td width="250">
+
+                   <table class="table table-striped table-bordered dataTable no-footer">
+                     <tr>
+                       <td width="250" ><a href="/settings/index?key=user_id" style="color:red;">user_id</a></td>
+                     </tr> 
+ 
+                    @for((robot, value) <- robots) { 
+                     <tr>
+                       <td width="250" ><a href="/settings/index?key=@(userName +"_"+ robot)_reference" style="background-color:#5afcf1;color:green;">@(userName +"_"+ robot)_reference</a></td>
+                     </tr>  
+                     }
+                     
+                    @for((robot, value) <- robots) { 
+                     <tr>
+                       <td width="250" > <a href="/settings/index?key=@(userName +"_"+ robot)_status" style="color:blue;">@(userName +"_"+ robot)_status</a></td>
+                     </tr>  
+                     }                     
+                   </table> 
+
+	                  </td>
+	                  <td>        
+                     <table class="table table-striped table-bordered dataTable no-footer">
+                      @for((key, value) <- redisValues) {
+                       <tr>
+                         <td width="100">@key</td><td>@value</td><td width="50">
+                                  <a href="/settings/@currentKey/@key" class="btn btn-info btn-sm">
+                                    <span class="glyphicon glyphicon-edit"></span> Edit
+                                  </a>
+                          </td>                       
+                       </tr>  
+                       }
+                     </table>       
+
+	                  </td>	                  
+	                </tr>													
+              </tbody>
+            </table>
+
+            
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+ 
+          <!-- /.box -->
+        </div>
+      </div>
+
+    </section>
+
+<script language="javascript">
+
+</script>
+
+}

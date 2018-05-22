@@ -1,0 +1,60 @@
+
+# Map static resources from the /public folder to the /assets URL path
+ GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+# GET     /assets/*file               controllers.Assets.at(path="/assets", file)
+ 
+GET     /                       controllers.HomeController.index
+
+GET    /holdings/indexbyoverall          controllers.HoldingsController.index
+
+GET    /holdings/indexbyrobot             controllers.HoldingsController.indexbyrobot
+GET    /holdings/indexbyexchange          controllers.HoldingsController.indexbyexchange
+GET    /holdings/indexbystrategy          controllers.HoldingsController.indexbystrategy
+GET    /holdings/indexbycurrency          controllers.HoldingsController.indexbycurrency
+
+GET     /holdingsApi/:holdingType               controllers.HoldingsController.getHoldings(holdingType, field, categoryContent)
+GET     /holdingsApiManually                    controllers.HoldingsController.getHoldingsManually()
+
+#trades
+GET    /trades/indexbyoverall          controllers.TradesController.indexbyoverall
+
+GET    /trades/indexbyrobot             controllers.TradesController.indexbyrobot
+GET    /trades/indexbyexchange          controllers.TradesController.indexbyexchange
+GET    /trades/indexbycurrency          controllers.TradesController.indexbycurrency
+
+GET     /tradesApi/:holdingType               controllers.TradesController.getTrades(holdingType, field, categoryContent)
+GET     /tradesApiOne/queryByCreatedAt        controllers.TradesController.queryByCreatedAt
+
+
+GET    /settings/index             controllers.SettingsController.index(key?=null)
+# Edit existing settings
+GET     /settings/:key/:field              controllers.SettingsController.edit(key,field)
+POST    /settings/:key/:field              controllers.SettingsController.update(key,field)
+
+# logs
+GET    /logs/index             controllers.LogsController.index
+GET    /logs/logRedis             controllers.LogsController.logRedis
+GET    /logs/logJson             controllers.LogsController.logJson
+GET    /logs/logMongodb             controllers.LogsController.logMongodb
+
+GET     /login                  controllers.UsersController.login()
+POST    /login                 controllers.UsersController.authenticate()
+GET     /logout                  controllers.UsersController.logout()
+
+
+GET     /users                      controllers.UsersController.index()
+GET     /usersList                  controllers.UsersController.list(p:Int ?= 0, s ?= "id", o ?= "desc", f ?= "")
+GET     /users/new              controllers.UsersController.create()
+POST    /users                  controllers.UsersController.save()
+# Delete a user
+GET    /users/:id/delete       controllers.UsersController.delete(id:Long)
+GET     /users/:id              controllers.UsersController.edit(id:Long)
+POST    /users/:id              controllers.UsersController.update(id:Long)
+
+GET    /chartDefinedColors              controllers.SettingsController.chartDefinedColors()
+
+#user_name ?= "", robot_name ?= "", level ?= ""
+GET     /monitorings       controllers.MonitoringsController.index()
+GET     /monitoringsList  controllers.MonitoringsController.list(p:Int ?= 0, s ?= "created_at", o ?= "desc", userName ?= "", robotName ?= "",logLevel ?= "")
+GET     /monitorings/:id controllers.MonitoringsController.show(id:String)
+

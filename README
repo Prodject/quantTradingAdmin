@@ -1,0 +1,11 @@
+Creating JSON Values
+
+A JSON array contains a list of values separated by commas and enclosed within [ and ] characters:
+
+
+["abc", 10, null, true, false]
+
+
+production
+specify port
+bin/viewfinquanttradingai -Dplay.http.secret.key=kevin -Dhttp.port=9008 &

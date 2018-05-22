@@ -1,0 +1,14 @@
+@(users: io.ebean.PagedList[User])
+
+
+@main {
+
+	@users
+		
+	@for(user <- users.getList.asScala) {
+	                     
+	    @user.name <br>
+	                         
+	                     
+	}    
+}

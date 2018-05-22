@@ -1,0 +1,283 @@
+@(category: String)
+
+@main("交易分析页面---整体账户分析")   {
+  
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        交易分析页面---@category        
+        <select name="holdingType" style="width: 120px;" class="form-control">
+          <option value="currency">加密币种</option>
+          <option value="robot">机器人</option>
+          <option value="exchange">交易所</option>
+        </select>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 交易分析页面</a></li>
+        <li class="active">整体账户分析</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">最近一个月交易量</h3>
+          <div class="box-tools pull-right">
+            &nbsp;
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="chart">
+            <canvas id="barChartCurrentMonth" style="height:250px"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">最近一个月手续费</h3>
+          <div class="box-tools pull-right">
+            &nbsp;
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="chart">
+            <canvas id="currentMonthGrowthRate" style="height:250px"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">今天交易量分布图</h3>
+          <div class="box-tools pull-right">
+          &nbsp;
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="chart">
+            <canvas id="pieChartTodayHolding" style="height:230px"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<script language="javascript">
+
+var sumOfByCurrency = {};
+var currencyArray=[];
+var eachCurrencySumArray=[];
+var currencyColor=[];
+var widgets = {};
+function holdingDashboard(holdingType, field, categoryContent) {
+//---------------------------------------------------------------------
+$.getJSON("/tradesApi/"+holdingType+"?field="+field+"&categoryContent="+categoryContent, function(holdingsJson) {  
+    //var currenciesJson = {"BTC":"red","ETH":"black","ETC":"orange","BCH":"green","LTC":"yellow"};
+    
+    var datasetsDefault = [];
+    var datasetsGrowthRate = [];
+    var i = 0;
+    var holdingDays = holdingsJson.days.days;
+    var holdingCryptoCurrencies = holdingsJson.cryptoCurrencies;
+    var cryptoCurrenciesName = holdingsJson.cryptoCurrenciesName;
+    var cryptoCurrenciesReal = holdingsJson.cryptoCurrenciesReal;
+    var cryptoCurrenciesColor = holdingsJson.cryptoCurrenciesColor;
+    var holdingGrowthRate = holdingsJson.holdingGrowthRate;
+    var cryptoCurrenciesQuantity = [];
+    //empty sumOfByCurrency avoid append when selecting different holding type
+     sumOfByCurrency={};
+     currencyColor=[];
+
+    for(var currency in cryptoCurrenciesName) { 
+        cryptoCurrenciesQuantity = [];
+        cryptoCurrenciesGrowthRate = [];
+        sumOfByCurrency[currency] = 0;
+        holdingDays.forEach(function (day) {            
+            if(typeof(cryptoCurrenciesReal[currency+"_"+day]) != 'undefined') {
+                
+                cryptoCurrenciesQuantity.push(cryptoCurrenciesReal[currency+"_"+day]);
+                if(holdingDays[holdingDays.length-1] == day) {
+                  sumOfByCurrency[currency]  = parseFloat(sumOfByCurrency[currency]) + parseFloat(cryptoCurrenciesReal[currency+"_"+day]);
+
+                }                    
+            } else {                 
+                cryptoCurrenciesQuantity.push(0);
+            }
+        });
+        
+        datasetsDefault[i] = {
+            label: currency,
+            backgroundColor: cryptoCurrenciesColor[currency],
+            borderColor: cryptoCurrenciesColor[currency],
+            data: cryptoCurrenciesQuantity,
+            fill: false,
+        };
+        currencyArray.push(currency);
+        currencyColor.push(cryptoCurrenciesColor[currency]);
+        //--------------------growth rate curve------------------------------
+        holdingDays.forEach(function (day) {            
+            if(typeof(holdingGrowthRate[currency+"_"+day]) != 'undefined') {                
+                cryptoCurrenciesGrowthRate.push(holdingGrowthRate[currency+"_"+day]);
+            } else {                 
+                cryptoCurrenciesGrowthRate.push(0);
+            }
+        });        
+        datasetsGrowthRate[i] = {
+            label: currency,
+            backgroundColor: cryptoCurrenciesColor[currency],
+            borderColor: cryptoCurrenciesColor[currency],
+            data: cryptoCurrenciesGrowthRate,
+            fill: false,
+        };
+        i++;        
+    }   
+
+    var config = {
+        type: 'bar',
+        data: {
+            labels: holdingDays,
+            datasets: datasetsDefault
+        },
+        options: {
+            responsive: true,
+            title: {
+                display: false,
+                text: ''
+            },
+            scales: {
+                xAxes: [{
+                    stacked: true,
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: '天'
+                    }
+                }],
+                yAxes: [{
+                    stacked: true,
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Quantity'
+                    }
+                }]
+            }
+        }
+    };
+
+if (!widgets['barChartCurrentMonth']) { 
+    var barChart = document.getElementById('barChartCurrentMonth').getContext('2d');
+    widgets['barChartCurrentMonth'] = new Chart(barChart, config);
+} else {
+    widgets['barChartCurrentMonth'].data = { labels: holdingDays, datasets: datasetsDefault};
+    widgets['barChartCurrentMonth'].update(0);
+}
+//-----------------pie chart of sum of currency-------------------------
+ eachCurrencySumArray=[];
+for(var currency in sumOfByCurrency) {      
+
+    eachCurrencySumArray.push(sumOfByCurrency[currency]);   
+ 
+}
+var configPie = {
+    type: 'pie',
+    data: {
+        datasets: [{
+            data: eachCurrencySumArray,
+            backgroundColor: currencyColor,
+            label: 'all of robots'
+        }],
+        labels: currencyArray
+    },
+    options: {
+        responsive: true
+    }
+};
+
+if (!widgets['pieChartTodayHolding']) { 
+    var pieChart = document.getElementById('pieChartTodayHolding').getContext('2d');
+    widgets['pieChartTodayHolding'] = new Chart(pieChart, configPie);    
+} else {
+    widgets['pieChartTodayHolding'].data = {
+        labels: currencyArray,
+        datasets: [
+            {
+                data: eachCurrencySumArray,
+                backgroundColor: currencyColor,
+                label: 'all of robots'
+            }
+        ]
+    };
+    widgets['pieChartTodayHolding'].update(0);
+}
+eachCurrencySumArray=[];
+currencyArray=[];
+eachCurrencySumArray=[]; 
+//-----------------line chart of holding Growth rate curve-------------------------  
+var configLine = {
+    type: 'bar',
+    data: {
+        labels: holdingDays,
+        datasets: datasetsGrowthRate
+    },
+    options: {
+        responsive: true,
+        title: {
+            display: false,
+            text: ''
+        },
+        scales: {
+            xAxes: [{
+                display: true,
+                stacked: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: '天'
+                }
+            }],
+            yAxes: [{
+                display: true,
+                stacked: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Quantity'
+                }
+            }]
+        }
+    }
+};
+
+if (!widgets['currentMonthGrowthRate']) { 
+    var lineChartRate = document.getElementById('currentMonthGrowthRate').getContext('2d');
+    widgets['currentMonthGrowthRate'] = new Chart(lineChartRate, configLine);
+} else {
+    widgets['currentMonthGrowthRate'].data = {
+        labels: holdingDays,
+        datasets: datasetsGrowthRate
+    };
+    widgets['currentMonthGrowthRate'].update(0);
+}
+//-----------------line chart of The growth rate of line------------------------- 
+ });  
+
+}
+
+var field = "all";
+var holdingType = $("select[name=holdingType]").val();
+var categoryContent = "";
+window.onload = holdingDashboard("currency", field, categoryContent);
+$(document).ready(function() {    
+    $( "select[name=holdingType]").change(function() {
+      holdingDashboard($(this).val(), field, categoryContent);
+    });    
+});    
+
+// This will run every one minute 60000
+setInterval(function() {    
+    holdingDashboard(holdingType, field, categoryContent);
+}, 60000);
+
+</script>
+
+}

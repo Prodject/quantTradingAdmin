@@ -1,0 +1,56 @@
+@(log: Log)
+ 
+@main("users")   {      
+     
+    <section class="content-header">
+      <h1>
+        <a href="/monitorings">Monitor</a> &nbsp;              
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Users</a></li>
+        <li class="active">list</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">        
+      <div class="box box-primary"> 
+        <div class="box-body">
+         <div class="row">
+
+         
+        </div>
+
+         @if(log == null) {
+        <div class="well">
+            <em>Nothing to display</em>
+        </div>
+        } else {
+
+            <table class="table table-bordered">
+                <tbody>                     
+                        <tr>
+                            <td width="10%">User name</td> <td>@log.user_name</td>                            
+                        </tr>
+                        <tr>
+                            <td width="10%">Robot name</td> <td>@log.robot_name</td>                            
+                        </tr>
+                        <tr>
+                            <td width="10%">Log level</td> <td>@log.log_level</td>                            
+                        </tr>
+                        <tr>
+                            <td width="10%">Content</td> <td>@log.content</td>                            
+                        </tr>                        
+                </tbody>
+            </table> 
+
+         }
+          
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+}

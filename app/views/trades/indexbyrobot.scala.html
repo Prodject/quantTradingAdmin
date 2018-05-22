@@ -1,0 +1,300 @@
+@(category: String, robots: Set[Trade])
+
+@main("交易分析页面---整体账户分析")   {
+  
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        交易分析页面---@category
+        <!--<small>分析所有账户总体持仓的情况，分静态数据和动态数据。静态数据包括：给定目前时刻在不同交易所的资产分布图，在不同账户中的资产分布图，在不同货币中的持仓比例图等；动态数据包括：总体持仓换算成某一给定货币单位（法币或者虚拟货币）的历史表现，分不同交易所、不同账户、不同货币持仓的历史表现。</small>-->
+        <div class="row">
+            <div class="col-sm-1">        
+                <select name="categoryContent" style="width: 100px;" class="form-control">                  
+                  @for(robot <- robots) {        
+                   <option value="@robot.robot_name">@robot.robot_name</option>
+                  }
+                </select>
+            </div>
+            <div class="col-sm-4">               
+            <select name="holdingType" style="width: 120px;" class="form-control">
+              <option value="currency">加密币种</option>
+              <!-- <option value="robot">机器人</option> -->
+              <option value="exchange">交易所</option>
+            </select>
+            </div> 
+          </div>              
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 持仓分析页面</a></li>
+        <li class="active">整体账户分析</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">整体账户分析最近一个月</h3>
+          <div class="box-tools pull-right">
+            &nbsp;
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="chart">
+            <canvas id="barChartCurrentMonth" style="height:250px"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">最近一个月手续费</h3>
+          <div class="box-tools pull-right">
+            &nbsp;
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="chart">
+            <canvas id="currentMonthGrowthRate" style="height:250px"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">今天整体账户交易量分布图</h3>
+          <div class="box-tools pull-right">
+          &nbsp;
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="chart">
+            <canvas id="pieChartTodayHolding" style="height:230px"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<script language="javascript">
+var sumOfByCurrency = {};
+var currencyArray=[];
+var eachCurrencySumArray=[];
+var currencyColor=[];
+var widgets = {};
+function holdingDashboard(holdingType, field, categoryContent) {
+//---------------------------------------------------------------------
+$.getJSON("/tradesApi/"+holdingType+"?field="+field+"&categoryContent="+categoryContent, function(holdingsJson) {  
+    
+    //console.log(holdingsJson);
+    var datasetsDefault = [];
+    var datasetsGrowthRate = [];
+    var i = 0;
+    var holdingDays = holdingsJson.days.days;
+    var holdingCryptoCurrencies = holdingsJson.cryptoCurrencies;
+    var cryptoCurrenciesName = holdingsJson.cryptoCurrenciesName;
+    var cryptoCurrenciesReal = holdingsJson.cryptoCurrenciesReal;
+    var cryptoCurrenciesColor = holdingsJson.cryptoCurrenciesColor;
+    var holdingGrowthRate = holdingsJson.holdingGrowthRate;
+    var cryptoCurrenciesQuantity = [];
+    //empty sumOfByCurrency avoid append when selecting different holding type
+     sumOfByCurrency={};
+     currencyColor=[];
+
+    for(var currency in cryptoCurrenciesName) { 
+        cryptoCurrenciesQuantity = [];
+        cryptoCurrenciesGrowthRate = [];
+        sumOfByCurrency[currency] = 0;
+        holdingDays.forEach(function (day) {            
+            if(typeof(cryptoCurrenciesReal[currency+"_"+day]) != 'undefined') {
+                
+                cryptoCurrenciesQuantity.push(cryptoCurrenciesReal[currency+"_"+day]);
+                if(holdingDays[holdingDays.length-1] == day) {
+                  sumOfByCurrency[currency]  = parseFloat(sumOfByCurrency[currency]) + parseFloat(cryptoCurrenciesReal[currency+"_"+day]);
+
+                }                    
+            } else {                 
+                cryptoCurrenciesQuantity.push(0);
+            }
+        });
+        
+        datasetsDefault[i] = {
+            label: currency,
+            backgroundColor: cryptoCurrenciesColor[currency],
+            borderColor: cryptoCurrenciesColor[currency],
+            data: cryptoCurrenciesQuantity,
+            fill: false,
+        };
+        currencyArray.push(currency);
+        currencyColor.push(cryptoCurrenciesColor[currency]);
+        //--------------------growth rate curve------------------------------
+        holdingDays.forEach(function (day) {            
+            if(typeof(holdingGrowthRate[currency+"_"+day]) != 'undefined') {                
+                cryptoCurrenciesGrowthRate.push(holdingGrowthRate[currency+"_"+day]);
+            } else {                 
+                cryptoCurrenciesGrowthRate.push(0);
+            }
+        });        
+        datasetsGrowthRate[i] = {
+            label: currency,
+            backgroundColor: cryptoCurrenciesColor[currency],
+            borderColor: cryptoCurrenciesColor[currency],
+            data: cryptoCurrenciesGrowthRate,
+            fill: false,
+        };
+        i++;        
+    }   
+
+    var config = {
+        type: 'bar',
+        data: {
+            labels: holdingDays,
+            datasets: datasetsDefault
+        },
+        options: {
+            responsive: true,
+            title: {
+                display: false,
+                text: ''
+            },
+            scales: {
+                xAxes: [{
+                    stacked: true,
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: '天'
+                    }
+                }],
+                yAxes: [{
+                    stacked: true,
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Quantity'
+                    }
+                }]
+            }
+        }
+    };
+
+if (!widgets['barChartCurrentMonth']) { 
+    var barChart = document.getElementById('barChartCurrentMonth').getContext('2d');
+    widgets['barChartCurrentMonth'] = new Chart(barChart, config);
+} else {
+    widgets['barChartCurrentMonth'].data = { labels: holdingDays, datasets: datasetsDefault};
+    widgets['barChartCurrentMonth'].update(0);
+}
+//-----------------pie chart of sum of currency-------------------------
+ eachCurrencySumArray=[];
+for(var currency in sumOfByCurrency) {      
+
+    eachCurrencySumArray.push(sumOfByCurrency[currency]);   
+ 
+}
+var configPie = {
+    type: 'pie',
+    data: {
+        datasets: [{
+            data: eachCurrencySumArray,
+            backgroundColor: currencyColor,
+            label: 'all of robots'
+        }],
+        labels: currencyArray
+    },
+    options: {
+        responsive: true
+    }
+};
+
+if (!widgets['pieChartTodayHolding']) { 
+    var pieChart = document.getElementById('pieChartTodayHolding').getContext('2d');
+    widgets['pieChartTodayHolding'] = new Chart(pieChart, configPie);    
+} else {
+    widgets['pieChartTodayHolding'].data = {
+        labels: currencyArray,
+        datasets: [
+            {
+                data: eachCurrencySumArray,
+                backgroundColor: currencyColor,
+                label: 'all of robots'
+            }
+        ]
+    };
+    widgets['pieChartTodayHolding'].update(0);
+}
+eachCurrencySumArray=[];
+currencyArray=[];
+eachCurrencySumArray=[]; 
+//-----------------line chart of holding Growth rate curve-------------------------  
+var configLine = {
+    type: 'bar',
+    data: {
+        labels: holdingDays,
+        datasets: datasetsGrowthRate
+    },
+    options: {
+        responsive: true,
+        title: {
+            display: false,
+            text: ''
+        },
+        scales: {
+            xAxes: [{
+                stacked: true,
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: '天'
+                }
+            }],
+            yAxes: [{
+                stacked: true,
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Quantity'
+                }
+            }]
+        }
+    }
+};
+
+if (!widgets['currentMonthGrowthRate']) { 
+    var lineChartRate = document.getElementById('currentMonthGrowthRate').getContext('2d');
+    widgets['currentMonthGrowthRate'] = new Chart(lineChartRate, configLine);
+} else {
+    widgets['currentMonthGrowthRate'].data = {
+        labels: holdingDays,
+        datasets: datasetsGrowthRate
+    };
+    widgets['currentMonthGrowthRate'].update(0);
+}
+//-----------------line chart of The growth rate of line------------------------- 
+ });  
+
+}
+
+var field = "robot_name";
+var holdingType = $("select[name=holdingType]").val();
+var categoryContent = $("select[name=categoryContent]").val();
+window.onload =  holdingDashboard(holdingType, field, categoryContent);
+$(document).ready(function() {    
+    
+    $( "select[name=categoryContent]").change(function() {
+        var holdingType = $("select[name=holdingType]").val();
+      holdingDashboard(holdingType, field, $(this).val());
+    }); 
+    $( "select[name=holdingType]").change(function() {
+        var categoryContent = $("select[name=categoryContent]").val();
+      holdingDashboard($(this).val(), field, categoryContent);
+    });    
+});    
+
+// This will run every one minute 60000
+// setInterval(function() {
+//     holdingDashboard(holdingType, field, categoryContent);
+// }, 60000);
+
+</script>
+
+}

@@ -1,0 +1,79 @@
+@(category: String, key: String,field: String,value: String)
+@import helper._
+
+@main(category)   {  
+    
+    <section class="content-header">
+      <h1>
+        @category
+        <div class="row">
+            <div class="col-sm-1">        
+                &nbsp;
+            </div>
+            <div class="col-sm-4">
+                &nbsp;
+            </div> 
+          </div>        
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> @category</a></li>
+        <li class="active">设置</li>
+      </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content container-fluid">
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">&nbsp;</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+
+              @form(routes.SettingsController.update("","")) {
+               @CSRF.formField
+              <table class="table table-bordered">
+                <tbody><tr>                   
+                  <th>键</th>
+                  <th>值</th>                   
+                	</tr>
+					       <tr>	                   
+	                  <td width="250">
+                      @key
+	                  </td>
+	                  <td>   
+	                    @field :      <input type="text" name="redisValue" size="100" value="@value">   
+
+	                  </td>
+	                </tr>					
+                 <tr>                   
+                     
+                    <td colspan="2">   
+                       
+                      <button type="submit" class="btn btn-primary">Save</button>
+
+                    </td>
+                  </tr> 				
+				
+              </tbody>
+            </table>
+            }
+
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+ 
+          <!-- /.box -->
+        </div>
+      </div>
+
+    </section>
+
+<script language="javascript">
+
+</script>
+
+}

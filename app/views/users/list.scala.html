@@ -1,0 +1,125 @@
+@(currentPage: io.ebean.PagedList[User], currentSortBy: String, currentOrder: String, currentFilter: String)
+
+@****************************************
+* Helper generating navigation links    *
+****************************************@
+@link(newPage:Int, newSortBy:String) = @{
+
+    var sortBy = currentSortBy
+    var order = currentOrder
+
+    if(newSortBy != null) {
+        sortBy = newSortBy
+        if(currentSortBy == newSortBy) {
+            if(currentOrder == "asc") {
+                order = "desc"
+            } else {
+                order = "asc"
+            }
+        } else {
+            order = "asc"
+        }
+    }
+
+    // Generate the link
+    routes.UsersController.list(newPage, sortBy, order, currentFilter)
+
+}
+
+@**********************************
+* Helper generating table headers *
+***********************************@
+@header(key:String, title:String) = {
+    <th class="@key.replace(".","_") header @if(currentSortBy == key) { @{if(currentOrder == "asc") "headerSortDown" else "headerSortUp" } }">
+        <a href="@link(0, key)">@title</a>
+    </th>
+}
+ 
+@main("users")   {      
+    <section class="content-header">
+      <h1>
+        Users &nbsp;
+        <button type="button" onclick="location.href='@routes.UsersController.create()'" class="btn btn-info">Add User</button>      
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Users</a></li>
+        <li class="active">list</li>
+      </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content container-fluid">
+      <div class="box box-primary"> 
+        <div class="box-body">
+    
+
+    @if(currentPage.getTotalCount == 0) {
+        <div class="well">
+            <em>Nothing to display</em>
+        </div>
+    } else {
+        <table class="computers zebra-striped">
+            <thead>
+                <tr>
+                    @header("id", "User ID")                    
+                    @header("email", "email")
+                    @header("name", "User name")                                         
+                    @header("role", "Role")
+                    @header("user_disabled", "操作")
+                </tr>
+            </thead>
+            <tbody>
+                @for(user <- currentPage.getList.asScala) {
+                    <tr>
+                            <td width="10%"><a href="@routes.UsersController.edit(user.id)">@user.id</a></td>
+                            <td width="20%">@user.email</td> 
+                            <td width="20%">@user.name</td> 
+                            <td width="20%">@user.role</td>
+                                                    
+                            <td width="20%">
+                                <a href="@routes.UsersController.edit(user.id)">Edit</a> |
+                                <a href="@routes.UsersController.delete(user.id)" onclick="return confirm('Delete?');">Delete</a>
+                            </td> 
+
+                    </tr>
+                }
+
+            </tbody>
+        </table> 
+        
+        <div id="pagination" class="" style="padding-top: 30px;">
+            <ul class="pagination pagination-sm no-margin">
+                @if(currentPage.hasPrev) {
+                    <li class="prev">
+                        <a href="@link(currentPage.getPageIndex - 1, null)">&larr; Previous</a>
+                    </li>
+                } else {
+                    <li class="prev disabled">
+                        <a>&larr; Previous</a>
+                    </li>
+                }
+                <li class="current">
+                    <a>Displaying @currentPage.getDisplayXtoYofZ(" to "," of ")</a>
+                </li>
+                @if(currentPage.hasNext) {
+                    <li class="next">
+                        <a href="@link(currentPage.getPageIndex + 1, null)">Next &rarr;</a>
+                    </li>
+                } else {
+                    <li class="next disabled">
+                        <a>Next &rarr;</a>
+                    </li>
+                }
+            </ul>
+        </div>        
+        
+        }
+
+        </div>
+      </div>
+
+ 
+
+       
+    </section>
+
+}
