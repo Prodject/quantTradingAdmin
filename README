@@ -9,3 +9,92 @@ A JSON array contains a list of values separated by commas and enclosed within [
 production
 specify port
 bin/viewfinquanttradingai -Dplay.http.secret.key=kevin -Dhttp.port=9008 &
+
+Play is a high-productivity Java and Scala web application framework that integrates the components and APIs you need for modern web application development.
+
+Play is based on a lightweight, stateless, web-friendly architecture and features predictable and minimal resource consumption (CPU, memory, threads) for highly-scalable applications thanks to its reactive model, based on Akka Streams.
+
+Main concepts for Java
+
+This section introduces you to the most common aspects of writing a Play application in Java. You’ll learn about handling HTTP requests, sending HTTP responses, working with different types of data, using databases and much more.
+
+Note: The Play APIs for Java and Scala are separated into different packages. All the Java APIs are under the play package; all the Scala APIs are under play.api. For example, the Java MVC API is under play.mvc and the Scala MVC API is under play.api.mvc.
+
+Config API
+
+The Config API
+HTTP programming
+
+Actions, Controllers and Results
+HTTP routing
+Manipulating the HTTP response
+Session and Flash scopes
+Body parsers
+Actions composition
+HTTP Request Handlers / ActionCreator
+Content negotiation
+Asynchronous HTTP programming
+
+Handling asynchronous results
+Streaming HTTP responses
+Comet
+WebSockets
+The Twirl template engine
+
+Templates syntax
+Dependency Injection with Templates
+Common use cases
+Custom formats
+Form submission and validation
+
+Form definitions
+Using the form template helpers
+Protecting against CSRF
+Working with Json
+
+Handling and serving JSON
+Working with XML
+
+Handling and serving XML requests
+Handling file upload
+
+Direct upload and multipart/form-data
+Accessing an SQL database
+
+Configuring and using JDBC
+Integrating with JPA
+Using Ebean ORM
+Using the Cache
+
+Using the Cache
+Calling REST APIs with Play WS
+
+The Play WS API
+Connecting to OpenID services
+Accessing resources protected by OAuth
+Integrating with Akka
+
+Integrating with Akka
+Internationalization with Messages
+
+Internationalization with Messages
+Dependency Injection
+
+Dependency Injection with Guice
+Compile Time Dependency Injection
+Application Settings
+
+Application settings
+Essential Actions
+HTTP filters
+Error handling
+Testing your application
+
+Writing tests
+Writing functional tests
+Testing with Guice
+Testing with databases
+Testing web service clients
+Logging
+
+Logging
